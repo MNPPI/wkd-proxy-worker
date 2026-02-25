@@ -25,15 +25,15 @@
 		}
 	},
 	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "^0.12.13",
-		"@cloudflare/workers-types": "^4.20250214.0",
+		"@cloudflare/vitest-pool-workers": "^0.12.17",
+		"@cloudflare/workers-types": "^4.20260304.0",
 		"@vitest/coverage-istanbul": "~3.2.0",
-		"eslint": "^10.0.0",
+		"eslint": "^10.0.2",
 		"jiti": "^2.6.1",
 		"prettier": "^3.5.2",
 		"typescript": "^5.7.3",
-		"typescript-eslint": "^8.24.1",
+		"typescript-eslint": "^8.56.1",
 		"vitest": "~3.2.0",
-		"wrangler": "^4.0.0"
+		"wrangler": "^4.68.1"
 	}
 }
