@@ -1,0 +1,18 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "wkd-proxy-worker",
+	"main": "src/index.ts",
+	"compatibility_date": "2025-03-16",
+	"logpush": true,
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1,
+		"traces": {
+			"enabled": true,
+			"head_sampling_rate": 1
+		}
+	},
+	"vars": {
+		"DOMAINS": "example.com,example.org,example.net"
+	}
+}

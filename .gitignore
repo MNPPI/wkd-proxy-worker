@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Build and coverage
+coverage/
+*.tsbuildinfo
+
+# Wrangler
+.wrangler/
+.dev.vars
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+
+# Claude Code
+HANDOVER.md
