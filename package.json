@@ -14,16 +14,6 @@
 		"lint": "eslint .",
 		"format": "prettier --write ."
 	},
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"esbuild",
-			"sharp",
-			"workerd"
-		],
-		"overrides": {
-			"minimatch@<10": "^10.2.1"
-		}
-	},
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "^0.12.17",
 		"@cloudflare/workers-types": "^4.20260304.0",

@@ -1,0 +1,7 @@
+overrides:
+  minimatch@<10: ^10.2.1
+
+allowBuilds:
+  esbuild: true
+  sharp: true
+  workerd: true
