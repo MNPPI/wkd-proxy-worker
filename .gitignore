@@ -22,3 +22,7 @@ coverage/
 
 # Claude Code
 HANDOVER.md
+
+# AI context artifacts
+.repomix/
+repomix-output.*
