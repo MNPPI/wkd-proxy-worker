@@ -1,0 +1,10 @@
+{
+	"$schema": "https://repomix.com/schemas/latest/schema.json",
+	"output": {
+		"filePath": ".repomix/context.xml",
+		"style": "xml",
+	},
+	"security": {
+		"enableSecurityCheck": true,
+	},
+}

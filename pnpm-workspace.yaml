@@ -1,6 +1,9 @@
 overrides:
   minimatch@<10: ^10.2.1
 
+minimumReleaseAgeExclude:
+  - '@mnppi/quality@0.1.7'
+
 allowBuilds:
   esbuild: true
   sharp: true

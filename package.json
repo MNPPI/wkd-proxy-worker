@@ -12,18 +12,30 @@
 		"coverage": "vitest run --coverage",
 		"typecheck": "tsc --noEmit",
 		"lint": "eslint .",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"format:check": "prettier --check .",
+		"actionlint": "github-actionlint -shellcheck \"\"",
+		"zizmor": "zizmor --min-severity=medium --min-confidence=medium .github/workflows",
+		"context:pack": "repomix",
+		"quality": "pnpm --package @mnppi/quality@0.1.7 dlx mnppi-quality audit",
+		"quality:json": "pnpm --package @mnppi/quality@0.1.7 dlx mnppi-quality audit --json",
+		"quality:gaps": "pnpm --package @mnppi/quality@0.1.7 dlx mnppi-quality audit --fail-on-gaps",
+		"knip": "knip --no-config-hints --include files,dependencies,unlisted,binaries,unresolved",
+		"ci:local": "pnpm format:check && pnpm typecheck && pnpm lint && pnpm coverage && pnpm knip && pnpm actionlint && pnpm zizmor && pnpm context:pack && pnpm quality:gaps"
 	},
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "^0.12.17",
 		"@cloudflare/workers-types": "^4.20260304.0",
-		"@vitest/coverage-istanbul": "~3.2.0",
+		"@vitest/coverage-istanbul": "~3.2.6",
 		"eslint": "^10.0.2",
+		"github-actionlint": "1.7.12",
 		"jiti": "^2.6.1",
+		"knip": "^6.25.0",
 		"prettier": "^3.5.2",
+		"repomix": "^1.16.0",
 		"typescript": "^5.7.3",
 		"typescript-eslint": "^8.56.1",
-		"vitest": "~3.2.0",
+		"vitest": "~3.2.6",
 		"wrangler": "^4.68.1"
 	}
 }
