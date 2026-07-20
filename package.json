@@ -6,6 +6,7 @@
 	"packageManager": "pnpm@11.8.0",
 	"scripts": {
 		"deploy": "wrangler deploy",
+		"cf:check": "wrangler deploy --dry-run",
 		"dev": "wrangler dev",
 		"start": "wrangler dev",
 		"test": "vitest run",
@@ -21,7 +22,7 @@
 		"quality:json": "pnpm --package @mnppi/quality@0.4.2 dlx mnppi-quality audit --json",
 		"quality:gaps": "pnpm --package @mnppi/quality@0.4.2 dlx mnppi-quality audit --fail-on-gaps",
 		"knip": "knip --no-config-hints --include files,dependencies,unlisted,binaries,unresolved",
-		"ci:local": "pnpm format:check && pnpm typecheck && pnpm lint && pnpm coverage && pnpm knip && pnpm actionlint && pnpm zizmor && pnpm context:pack && pnpm quality:gaps"
+		"ci:local": "pnpm format:check && pnpm typecheck && pnpm lint && pnpm coverage && pnpm cf:check && pnpm knip && pnpm actionlint && pnpm zizmor && pnpm context:pack && pnpm quality:gaps"
 	},
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "^0.12.17",
