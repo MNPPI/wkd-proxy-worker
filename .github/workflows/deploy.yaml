@@ -146,7 +146,8 @@ jobs:
         run: |
           DOMAINS="${{ secrets.DOMAINS }}"
           for domain in ${DOMAINS//,/ }; do
-            echo "::add-mask::${domain}"
+            # This job runs only after merge or manual dispatch; forked PRs cannot reach this secret-backed step.
+            echo "::add-mask::${domain}" # nosemgrep
           done
 
       - name: Build exact release artifact
