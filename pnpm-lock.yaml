@@ -6,6 +6,7 @@ settings:
 
 overrides:
   adm-zip@<0.6.0: ^0.6.0
+  brace-expansion@<5.0.7: ^5.0.7
   flatted@<3.4.2: ^3.4.2
   minimatch@<10: ^10.2.1
   undici@>=6.0.0 <6.27.0: ^6.27.0
@@ -1388,10 +1389,6 @@ packages:
 
   boundary@2.0.0:
     resolution: { integrity: sha512-rJKn5ooC9u8q13IMCrW0RSp31pxBCHE3y9V/tp3TdWSLf8Em3p6Di4NBpfzbJge9YjjFEsD0RtFEjtvHL5VyEA== }
-
-  brace-expansion@5.0.4:
-    resolution: { integrity: sha512-h+DEnpVvxmfVefa4jFbCf5HdH5YMDXRsmKflpf1pILZWRFlTbJpxeU55nJl4Smt5HQaGzg1o6RHFPJaOqnmBDg== }
-    engines: { node: 18 || 20 || >=22 }
 
   brace-expansion@5.0.7:
     resolution: { integrity: sha512-7oFy703dxfY3/NLxC1fh2SUCQ0H9rmAY+5EpDVfXjUTTs+HEwR2nYaqLv+GWcTsumwxPfiz6CzCNkwXwBUwqCA== }
@@ -3682,10 +3679,6 @@ snapshots:
 
   boundary@2.0.0: {}
 
-  brace-expansion@5.0.4:
-    dependencies:
-      balanced-match: 4.0.4
-
   brace-expansion@5.0.7:
     dependencies:
       balanced-match: 4.0.4
@@ -4363,7 +4356,7 @@ snapshots:
 
   minimatch@10.2.4:
     dependencies:
-      brace-expansion: 5.0.4
+      brace-expansion: 5.0.7
 
   minimatch@10.2.5:
     dependencies:
