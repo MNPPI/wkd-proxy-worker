@@ -7,7 +7,7 @@ overrides:
   ws@>=8.0.0 <8.21.0: ^8.21.0
 
 minimumReleaseAgeExclude:
-  - '@mnppi/quality@0.4.2'
+  - '@mnppi/quality@0.4.3'
 
 allowBuilds:
   esbuild: true

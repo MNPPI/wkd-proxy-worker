@@ -53,13 +53,6 @@ jobs:
           node-version: '24'
           cache: pnpm
 
-      - name: Configure GitHub Packages
-        run: |
-          pnpm config set --location user @mnppi:registry https://npm.pkg.github.com
-          pnpm config set --location user //npm.pkg.github.com/:_authToken "$NODE_AUTH_TOKEN"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
-
       - name: Install Python quality tools
         run: |
           python3 -m venv "$RUNNER_TEMP/mnppi-python-quality"
@@ -67,7 +60,7 @@ jobs:
           echo "$RUNNER_TEMP/mnppi-python-quality/bin" >> "$GITHUB_PATH"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: env -u NODE_AUTH_TOKEN -u NPM_TOKEN -u GITHUB_TOKEN pnpm install --frozen-lockfile
 
       - name: Local CI
         run: pnpm ci:local
