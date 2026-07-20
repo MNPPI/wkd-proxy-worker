@@ -155,14 +155,14 @@ jobs:
           DOMAINS: ${{ secrets.DOMAINS }}
           WRANGLER_SEND_METRICS: 'false'
         run: |
-          ROUTE_ARGS=""
+          ROUTE_ARGS=()
           for domain in ${DOMAINS//,/ }; do
-            ROUTE_ARGS="$ROUTE_ARGS --route openpgpkey.${domain}/*"
-            ROUTE_ARGS="$ROUTE_ARGS --route ${domain}/.well-known/openpgpkey/*"
-            ROUTE_ARGS="$ROUTE_ARGS --route *.${domain}/.well-known/openpgpkey/*"
+            ROUTE_ARGS+=(--route "openpgpkey.${domain}/*")
+            ROUTE_ARGS+=(--route "${domain}/.well-known/openpgpkey/*")
+            ROUTE_ARGS+=(--route "*.${domain}/.well-known/openpgpkey/*")
           done
           pnpm exec wrangler deploy --dry-run --outdir .wrangler/release \
-            $ROUTE_ARGS --var "DOMAINS:${DOMAINS}"
+            "${ROUTE_ARGS[@]}" --var "DOMAINS:${DOMAINS}"
 
       - name: Attest exact release artifact
         uses: actions/attest@f7c74d28b9d84cb8768d0b8ca14a4bac6ef463e6 # v4.2.0
@@ -170,6 +170,13 @@ jobs:
           subject-path: |
             .wrangler/release/index.js
             .wrangler/release/index.js.map
+
+      - name: Verify release artifact provenance
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh attestation verify .wrangler/release/index.js --repo "$GITHUB_REPOSITORY"
+          gh attestation verify .wrangler/release/index.js.map --repo "$GITHUB_REPOSITORY"
 
       - name: Ensure DNS records
         env:
@@ -237,11 +244,11 @@ jobs:
           WRANGLER_SEND_METRICS: 'false'
         run: |
           DOMAINS="${{ secrets.DOMAINS }}"
-          ROUTE_ARGS=""
+          ROUTE_ARGS=()
           for domain in ${DOMAINS//,/ }; do
-            ROUTE_ARGS="$ROUTE_ARGS --route openpgpkey.${domain}/*"
-            ROUTE_ARGS="$ROUTE_ARGS --route ${domain}/.well-known/openpgpkey/*"
-            ROUTE_ARGS="$ROUTE_ARGS --route *.${domain}/.well-known/openpgpkey/*"
+            ROUTE_ARGS+=(--route "openpgpkey.${domain}/*")
+            ROUTE_ARGS+=(--route "${domain}/.well-known/openpgpkey/*")
+            ROUTE_ARGS+=(--route "*.${domain}/.well-known/openpgpkey/*")
           done
           pnpm exec wrangler deploy .wrangler/release/index.js --no-bundle \
-            --name wkd-proxy-worker $ROUTE_ARGS --var "DOMAINS:${DOMAINS}"
+            --name wkd-proxy-worker "${ROUTE_ARGS[@]}" --var "DOMAINS:${DOMAINS}"
