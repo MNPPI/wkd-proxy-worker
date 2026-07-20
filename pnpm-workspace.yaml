@@ -1,5 +1,10 @@
 overrides:
+  adm-zip@<0.6.0: ^0.6.0
+  flatted@<3.4.2: ^3.4.2
   minimatch@<10: ^10.2.1
+  undici@>=6.0.0 <6.27.0: ^6.27.0
+  undici@>=7.0.0 <7.28.0: ^7.28.0
+  ws@>=8.0.0 <8.21.0: ^8.21.0
 
 minimumReleaseAgeExclude:
   - '@mnppi/quality@0.4.2'
