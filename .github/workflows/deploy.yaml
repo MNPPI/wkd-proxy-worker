@@ -29,8 +29,8 @@ jobs:
           node-version: '24'
           cache: pnpm
 
-      - name: Tokenless Cloudflare install parity
-        run: env -u NODE_AUTH_TOKEN pnpm install --frozen-lockfile
+      - name: Cloudflare install parity
+        run: pnpm install --frozen-lockfile
 
       - name: Check Cloudflare package
         env:
