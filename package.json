@@ -3,7 +3,10 @@
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
-	"packageManager": "pnpm@11.8.0",
+	"packageManager": "pnpm@11.21.0",
+	"engines": {
+		"node": ">=24"
+	},
 	"scripts": {
 		"deploy": "wrangler deploy",
 		"cf:check": "wrangler deploy --dry-run",
@@ -22,18 +25,18 @@
 		"ci:local": "pnpm format:check && pnpm typecheck && pnpm lint && pnpm coverage && pnpm cf:check && pnpm knip && pnpm actionlint && pnpm zizmor && pnpm context:pack"
 	},
 	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "^0.12.17",
-		"@cloudflare/workers-types": "^4.20260304.0",
-		"@vitest/coverage-istanbul": "~3.2.6",
-		"eslint": "^10.0.2",
+		"@cloudflare/vitest-pool-workers": "0.12.21",
+		"@cloudflare/workers-types": "5.20260814.1",
+		"@vitest/coverage-istanbul": "3.2.7",
+		"eslint": "10.8.1",
 		"github-actionlint": "1.7.12",
-		"jiti": "^2.6.1",
-		"knip": "^6.25.0",
-		"prettier": "^3.5.2",
-		"repomix": "^1.16.0",
-		"typescript": "^5.7.3",
-		"typescript-eslint": "^8.56.1",
-		"vitest": "~3.2.6",
-		"wrangler": "^4.68.1"
+		"jiti": "2.7.0",
+		"knip": "6.32.2",
+		"prettier": "3.9.6",
+		"repomix": "1.18.0",
+		"typescript": "5.9.3",
+		"typescript-eslint": "8.67.0",
+		"vitest": "3.2.7",
+		"wrangler": "4.123.0"
 	}
 }
