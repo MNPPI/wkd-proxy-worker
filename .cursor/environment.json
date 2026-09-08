@@ -1,0 +1,16 @@
+{
+	"name": "WKD Proxy Worker",
+	"install": ".cursor/install.sh",
+	"terminals": [
+		{
+			"name": "dev",
+			"command": ".cursor/dev.sh"
+		}
+	],
+	"ports": [
+		{
+			"name": "wrangler dev",
+			"port": 8787
+		}
+	]
+}
