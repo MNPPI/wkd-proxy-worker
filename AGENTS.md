@@ -1,12 +1,11 @@
 # WKD Proxy Worker
 
-
 ## Hybrid environments
 
-| Environment | How dependencies install | How Node is selected |
-| --- | --- | --- |
-| Mac workstation | `pnpm install --frozen-lockfile` (and direnv when this repo uses it). | nvm / fnm / Homebrew Node reading [`.nvmrc`](.nvmrc). |
-| Cursor Cloud Agent | [`.cursor/install.sh`](.cursor/install.sh) (tokenless frozen install). | The same `.nvmrc` pin through nvm. |
+| Environment        | How dependencies install                                               | How Node is selected                                  |
+| ------------------ | ---------------------------------------------------------------------- | ----------------------------------------------------- |
+| Mac workstation    | `pnpm install --frozen-lockfile` (and direnv when this repo uses it).  | nvm / fnm / Homebrew Node reading [`.nvmrc`](.nvmrc). |
+| Cursor Cloud Agent | [`.cursor/install.sh`](.cursor/install.sh) (tokenless frozen install). | The same `.nvmrc` pin through nvm.                    |
 
 Do not put tokens in the repo, chat output, or committed env files.
 
