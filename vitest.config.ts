@@ -5,6 +5,11 @@ export default defineWorkersConfig({
 		poolOptions: {
 			workers: {
 				wrangler: { configPath: './wrangler.jsonc' },
+				miniflare: {
+					bindings: {
+						DOMAINS: 'example.com,example.org,example.net',
+					},
+				},
 			},
 		},
 		coverage: {

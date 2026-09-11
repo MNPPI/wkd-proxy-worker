@@ -1,0 +1,2 @@
+# Copy to .dev.vars for local wrangler dev. Do not put real domains here.
+DOMAINS=example.com,example.org,example.net

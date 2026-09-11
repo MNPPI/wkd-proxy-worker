@@ -14,7 +14,4 @@
 			"head_sampling_rate": 1,
 		},
 	},
-	"vars": {
-		"DOMAINS": "example.com,example.org,example.net",
-	},
 }
