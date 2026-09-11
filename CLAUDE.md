@@ -6,14 +6,16 @@ A Cloudflare Worker that proxies OpenPGP Web Key Directory (WKD) requests to Pro
 
 ## Architecture
 
-Single-file Worker (`src/index.ts`) with no framework dependencies. Domains are configured at runtime via the `DOMAINS` environment variable (comma-separated). Routes and DNS records are managed dynamically by the GitHub Actions deploy workflow.
+Single-file Worker (`src/index.ts`) with no framework dependencies. Production
+`DOMAINS` and routes stay in the Cloudflare dashboard. `wrangler.jsonc` keeps
+example domains for local dev and tests.
 
 ## Key Files
 
 - `src/index.ts` - The entire Worker implementation
 - `test/index.spec.ts` - Tests using `@cloudflare/vitest-pool-workers`
-- `wrangler.jsonc` - Wrangler config (vars.DOMAINS has test defaults)
-- `.github/workflows/deploy.yaml` - CI/CD: lint, test, DNS, deploy
+- `wrangler.jsonc` - Wrangler config (example `DOMAINS`, `keep_vars`, no routes)
+- `.github/workflows/deploy.yaml` - GitHub CI only: lint, test, `cf:check`
 
 ## Commands
 
@@ -29,17 +31,17 @@ Tests use `@cloudflare/vitest-pool-workers` with `fetchMock` for upstream API mo
 
 ## Deployment
 
-Deployment is GitHub Actions only (never manual `wrangler deploy` in production). The workflow:
+Cloudflare Workers Builds owns production deploy from `main`. GitHub Actions
+validates only. Do not run `wrangler deploy`, remote DNS writes, or use
+`CLOUDFLARE_API_TOKEN` from GitHub or a Cloud Agent.
 
-1. Masks domain names in logs (from `DOMAINS` secret)
-2. Idempotently creates `openpgpkey.*` DNS CNAME records via Cloudflare API
-3. Generates `--route` args for each domain (3 patterns per domain)
-4. Deploys with `--var DOMAINS:${DOMAINS}` to inject the runtime config
+The Builds deploy command is `pnpm deploy:cloudflare` (`wrangler deploy --keep-vars`).
+`workers_dev` is false and `route` / `routes` are omitted so dashboard routes stay.
+Production `DOMAINS` stays a dashboard Worker var. Do not commit real domains.
 
-## Secrets
-
-- `CLOUDFLARE_API_TOKEN` - Cloudflare API token with Zone:DNS:Edit, Zone:Zone:Read, Workers Scripts:Edit, Workers Routes:Edit
-- `DOMAINS` - Comma-separated list of domains (masked in logs)
+Adding a domain is a workstation or dashboard procedure: update the `DOMAINS`
+var, add the three route patterns, create the `openpgpkey` CNAME, and add a
+root placeholder only when the zone has no A/AAAA/CNAME.
 
 ## Code Standards
 
