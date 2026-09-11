@@ -59,8 +59,9 @@ placeholders `192.0.2.1` and `100::` so Cloudflare can intercept
 `.well-known` requests. Existing website records stay untouched.
 
 `wrangler.jsonc` sets `workers_dev = false` and `keep_vars = true` and
-omits `routes`, so later Builds deploys keep those dashboard routes and
-the production `DOMAINS` var.
+omits `routes` and `vars`. Wrangler still applies any `vars` that are in
+the config, so example `DOMAINS` must not appear there. Tests and local
+dev supply example domains separately.
 
 ### 5. Push to Deploy
 
@@ -81,7 +82,8 @@ A `200` response confirms the Worker is serving WKD requests for that domain.
 pnpm run dev
 ```
 
-This starts a local dev server. The `DOMAINS` variable defaults to example domains from `wrangler.jsonc` for local development.
+This starts a local dev server. Copy `.dev.vars.example` to `.dev.vars`
+so local `DOMAINS` uses the example list.
 
 ## Testing
 
@@ -96,9 +98,8 @@ pnpm run lint        # ESLint strict type-checked
 
 GitHub Actions validates the pull request. Cloudflare Workers Builds deploys
 from `main` with `pnpm deploy:cloudflare`. That command is
-`wrangler deploy --keep-vars`. It does not rewrite dashboard routes or
-replace the production `DOMAINS` var with the example list in
-`wrangler.jsonc`.
+`wrangler deploy --keep-vars`. Dashboard routes stay because `routes` is
+omitted. Production `DOMAINS` stays because it is not in `wrangler.jsonc`.
 
 The Worker only intercepts the three WKD route patterns. Other hostname
 traffic is unchanged.

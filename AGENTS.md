@@ -18,14 +18,15 @@ A Cloudflare Worker that proxies OpenPGP Web Key Directory (WKD) requests to Pro
 ## Architecture
 
 Single-file Worker (`src/index.ts`) with no framework dependencies. Production
-`DOMAINS` and routes stay in the Cloudflare dashboard. `wrangler.jsonc` keeps
-example domains for local dev and tests.
+`DOMAINS` and routes stay in the Cloudflare dashboard. Do not put `DOMAINS`
+in `wrangler.jsonc` `vars`. Tests set example domains in `vitest.config.ts`.
+Local `wrangler dev` reads `.dev.vars`.
 
 ## Key Files
 
 - `src/index.ts` - The entire Worker implementation
 - `test/index.spec.ts` - Tests using `@cloudflare/vitest-pool-workers`
-- `wrangler.jsonc` - Wrangler config (example `DOMAINS`, `keep_vars`, no routes)
+- `wrangler.jsonc` - Wrangler config (`keep_vars`, no routes, no `DOMAINS` var)
 - `.github/workflows/deploy.yaml` - GitHub CI only: lint, test, `cf:check`
 
 ## Commands
@@ -48,7 +49,8 @@ validates only. Do not run `wrangler deploy`, remote DNS writes, or use
 
 The Builds deploy command is `pnpm deploy:cloudflare` (`wrangler deploy --keep-vars`).
 `workers_dev` is false and `route` / `routes` are omitted so dashboard routes stay.
-Production `DOMAINS` stays a dashboard Worker var. Do not commit real domains.
+`keep_vars` only preserves dashboard vars that are absent from `wrangler.jsonc`.
+Do not commit `DOMAINS` in `vars`, including example values.
 
 Adding a domain is a workstation or dashboard procedure: update the `DOMAINS`
 var, add the three route patterns, create the `openpgpkey` CNAME, and add a
