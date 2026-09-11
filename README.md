@@ -17,8 +17,8 @@ This Worker intercepts those requests via Cloudflare route patterns and proxies 
 
 - Supports unlimited custom domains via a single environment variable
 - Handles both WKD direct (subdomain) and advanced (`.well-known` path) methods
-- Automated DNS record creation for `openpgpkey.*` subdomains
-- Domain names masked in CI/CD logs for privacy
+- Dashboard-managed routes and `DOMAINS` so real domains stay out of git
+- One-time DNS setup for `openpgpkey.*` subdomains
 - 100% test coverage with Cloudflare Workers vitest integration
 - Full observability: structured logging, traces, and logpush
 
@@ -34,38 +34,38 @@ Fork this repo and clone your fork locally.
 pnpm install
 ```
 
-### 3. Configure Your Domains
+### 3. Connect Workers Builds
 
-Set the `DOMAINS` GitHub secret with a comma-separated list of your custom domains:
+In the Cloudflare dashboard, open Worker `wkd-proxy-worker` → Settings →
+Builds and connect this repository. Production branch: `main`. Deploy
+command: `pnpm deploy:cloudflare`. Leave non-production branch builds off.
 
-```bash
-gh secret set DOMAINS --body "yourdomain.com,anotherdomain.org"
-```
+Set the Worker runtime variable `DOMAINS` in Settings → Variables to a
+comma-separated list of your custom domains. Do not commit real domains.
 
-### 4. Configure Cloudflare API Token
+### 4. Add routes and DNS once
 
-Create a [Cloudflare API token](https://dash.cloudflare.com/profile/api-tokens) with these permissions:
+For each domain, add these Worker routes in the dashboard:
 
-| Permission Scope | Permission      | Access |
-| ---------------- | --------------- | ------ |
-| Account          | Workers Scripts | Edit   |
-| Zone             | Workers Routes  | Edit   |
-| Zone             | DNS             | Edit   |
-| Zone             | Zone            | Read   |
+| Pattern                               | Purpose                       |
+| ------------------------------------- | ----------------------------- |
+| `openpgpkey.{domain}/*`               | WKD direct method (subdomain) |
+| `{domain}/.well-known/openpgpkey/*`   | WKD advanced method (path)    |
+| `*.{domain}/.well-known/openpgpkey/*` | WKD advanced on any subdomain |
 
-The token must cover all zones (domains) you plan to use. Set it as a GitHub secret:
+Create a proxied CNAME `openpgpkey.{domain}` → `{domain}`. If the root zone
+has no A, AAAA, or CNAME (common for email-only domains), add proxied
+placeholders `192.0.2.1` and `100::` so Cloudflare can intercept
+`.well-known` requests. Existing website records stay untouched.
 
-```bash
-gh secret set CLOUDFLARE_API_TOKEN --body "your-token-here"
-```
+`wrangler.jsonc` sets `workers_dev = false` and `keep_vars = true` and
+omits `routes`, so later Builds deploys keep those dashboard routes and
+the production `DOMAINS` var.
 
 ### 5. Push to Deploy
 
-Push to `main` and the GitHub Actions workflow will:
-
-1. Run typecheck, lint, and tests with 100% coverage
-2. Create `openpgpkey.*` DNS CNAME records (idempotent - skips existing)
-3. Deploy the Worker with routes for all configured domains
+Push to `main`. GitHub Actions runs typecheck, lint, tests, and
+`cf:check`. Cloudflare Workers Builds deploys the Worker.
 
 ### 6. Verify
 
@@ -94,32 +94,23 @@ pnpm run lint        # ESLint strict type-checked
 
 ## How Deployment Works
 
-The deploy workflow generates three route patterns per domain:
+GitHub Actions validates the pull request. Cloudflare Workers Builds deploys
+from `main` with `pnpm deploy:cloudflare`. That command is
+`wrangler deploy --keep-vars`. It does not rewrite dashboard routes or
+replace the production `DOMAINS` var with the example list in
+`wrangler.jsonc`.
 
-| Pattern                               | Purpose                       |
-| ------------------------------------- | ----------------------------- |
-| `openpgpkey.{domain}/*`               | WKD direct method (subdomain) |
-| `{domain}/.well-known/openpgpkey/*`   | WKD advanced method (path)    |
-| `*.{domain}/.well-known/openpgpkey/*` | WKD advanced on any subdomain |
-
-Before deploying, it ensures the required DNS records exist for each domain:
-
-- **`openpgpkey.{domain}`** - A proxied CNAME pointing to the root domain, for the WKD direct method
-- **Root domain A/AAAA records** - If the root domain has no existing A, AAAA, or CNAME records (common for email-only domains), proxied placeholder records are created (`192.0.2.1` / `100::`) so Cloudflare can intercept `.well-known` requests
-
-All DNS creation is idempotent - existing records are never modified or overwritten.
-
-> **If your domain already hosts a website**: The deploy workflow detects existing root domain DNS records and leaves them untouched. Your web hosting is not affected. The Worker only intercepts requests matching the WKD route patterns above - all other traffic passes through normally.
-
-The `DOMAINS` value is injected as a Worker environment variable at deploy time via `--var`, so domains never appear in source code.
+The Worker only intercepts the three WKD route patterns. Other hostname
+traffic is unchanged.
 
 ## Adding or Removing Domains
 
-1. Update the `DOMAINS` GitHub secret
-2. Push any commit to `main` (or trigger the workflow manually)
-3. New DNS records are created automatically; removed domains simply stop receiving routes
+1. Update the Worker `DOMAINS` variable in the Cloudflare dashboard.
+2. Add or remove the three route patterns for that domain.
+3. Add or delete the `openpgpkey.*` CNAME. Add a root placeholder only when
+   the zone has no A, AAAA, or CNAME.
 
-For removed domains, you may want to manually delete the orphaned `openpgpkey.*` DNS records in the Cloudflare dashboard.
+Do not put real domains in git or in GitHub Actions secrets.
 
 ## Prerequisites
 

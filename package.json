@@ -8,7 +8,8 @@
 		"node": ">=24"
 	},
 	"scripts": {
-		"deploy": "wrangler deploy",
+		"deploy": "echo 'Refusing workstation production deploy. Workers Builds owns pnpm deploy:cloudflare.' >&2; exit 1",
+		"deploy:cloudflare": "wrangler deploy --keep-vars",
 		"cf:check": "wrangler deploy --dry-run",
 		"dev": "wrangler dev",
 		"start": "wrangler dev",
