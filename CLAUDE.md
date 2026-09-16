@@ -39,7 +39,9 @@ validates only. Do not run `wrangler deploy`, remote DNS writes, or use
 The Builds deploy command is `pnpm deploy:cloudflare` (`wrangler deploy --keep-vars`).
 `workers_dev` is false and `route` / `routes` are omitted so dashboard routes stay.
 `keep_vars` only preserves dashboard vars that are absent from `wrangler.jsonc`.
-Do not commit `DOMAINS` in `vars`, including example values.
+Do not commit `DOMAINS` in `vars`, including example values. This public
+repo has no GitHub `DOMAINS` secret. Dashboard `DOMAINS` is the runtime
+source.
 
 Adding a domain is a workstation or dashboard procedure: update the `DOMAINS`
 var, add the three route patterns, create the `openpgpkey` CNAME, and add a
