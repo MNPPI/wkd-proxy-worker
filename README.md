@@ -106,6 +106,11 @@ omitted. Production `DOMAINS` stays because it is not in `wrangler.jsonc`.
 The Worker only intercepts the three WKD route patterns. Other hostname
 traffic is unchanged.
 
+### MNPPI Required Public Checks
+
+GitHub runs the MNPPI Public Token-Free Security check for each pull request.
+That org-required workflow uses hosted runners and no MNPPI secrets.
+
 ## Adding or Removing Domains
 
 1. Update the Worker `DOMAINS` variable in the Cloudflare dashboard.
