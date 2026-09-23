@@ -10,7 +10,8 @@ overrides:
   esbuild@>=0.27.3 <0.28.1: 0.28.1
   flatted@<3.4.2: ^3.4.2
   fast-uri@>=3.0.0 <3.1.5: ^3.1.5
-  hono@<4.12.34: ^4.12.34
+  # hono ≥4.13.5 floor for GHSA-crvj-82cr-hjcx / GHSA-gqvv-2mrq-wpjv — REMOVE when lockfile resolves ≥4.13.5 without this pin and those alerts are gone.
+  hono@<4.13.5: 4.13.5
   ip-address@<10.3.1: ^10.3.1
   minimatch@<10: ^10.2.1
   nanoid@>=3.0.0 <3.3.18: 3.3.18
