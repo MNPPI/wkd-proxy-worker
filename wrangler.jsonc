@@ -4,8 +4,10 @@
 	"main": "src/index.ts",
 	"compatibility_date": "2025-03-16",
 	"workers_dev": false,
-	"keep_vars": true,
 	"logpush": true,
+	"secrets": {
+		"required": ["DOMAINS"],
+	},
 	"observability": {
 		"enabled": true,
 		"head_sampling_rate": 1,

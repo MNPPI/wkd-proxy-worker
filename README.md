@@ -15,9 +15,9 @@ This Worker intercepts those requests via Cloudflare route patterns and proxies 
 
 ## Features
 
-- Supports unlimited custom domains via a single environment variable
+- Supports unlimited custom domains via a single Worker secret
 - Handles both WKD direct (subdomain) and advanced (`.well-known` path) methods
-- Dashboard-managed routes and `DOMAINS` so real domains stay out of this public repo
+- Dashboard-managed routes and a `DOMAINS` Worker secret so real domains stay out of this public repo
 - One-time DNS setup for `openpgpkey.*` subdomains
 - 100% test coverage with Cloudflare Workers vitest integration
 - Full observability: structured logging, traces, and logpush
@@ -40,9 +40,11 @@ In the Cloudflare dashboard, open Worker `wkd-proxy-worker` → Settings →
 Builds and connect this repository. Production branch: `main`. Deploy
 command: `pnpm deploy:cloudflare`. Leave non-production branch builds off.
 
-Set the Worker runtime variable `DOMAINS` in Settings → Variables to a
-comma-separated list of your custom domains. That list stays in the
-Cloudflare dashboard. This public repository has no GitHub secret or
+Set the Worker secret `DOMAINS` in Settings → Secrets, or run
+`wrangler secret put DOMAINS` from a workstation that has Mark's token.
+The value is a comma-separated list of your custom domains. Runtime still
+reads `env.DOMAINS` as that string; secrets bind the same way as vars.
+Never commit the value. This public repository has no GitHub secret or
 variable for `DOMAINS`, and GitHub Actions has no Cloudflare deploy token.
 
 ### 4. Add routes and DNS once
@@ -60,10 +62,11 @@ has no A, AAAA, or CNAME (common for email-only domains), add proxied
 placeholders `192.0.2.1` and `100::` so Cloudflare can intercept
 `.well-known` requests. Existing website records stay untouched.
 
-`wrangler.jsonc` sets `workers_dev = false` and `keep_vars = true` and
-omits `routes` and `vars`. Wrangler still applies any `vars` that are in
-the config, so example `DOMAINS` must not appear there. Tests and local
-dev supply example domains separately.
+`wrangler.jsonc` sets `workers_dev = false` and `secrets.required` to
+`["DOMAINS"]` and omits `routes` and `vars`. Wrangler still applies any
+`vars` that are in the config, so `DOMAINS` must not appear there.
+`keep_vars` is gone: there are no dashboard-only plain vars left to
+preserve. Tests and local dev supply example domains separately.
 
 ### 5. Push to Deploy
 
@@ -100,8 +103,17 @@ pnpm run lint        # ESLint strict type-checked
 
 GitHub Actions validates the pull request. Cloudflare Workers Builds deploys
 from `main` with `pnpm deploy:cloudflare`. That command is
-`wrangler deploy --keep-vars`. Dashboard routes stay because `routes` is
-omitted. Production `DOMAINS` stays because it is not in `wrangler.jsonc`.
+`wrangler deploy`. Dashboard routes stay because `routes` is omitted.
+Production `DOMAINS` is a Worker secret, not a wrangler `vars` entry.
+`secrets.required` lists `DOMAINS`, so Builds fails closed if the secret
+is missing. A deploy that somehow ran without it would 500 at runtime
+when `env.DOMAINS` is empty.
+
+Convert an existing dashboard **plain** `DOMAINS` variable to a **secret**
+before the first Builds deploy after `keep_vars` is removed. Secrets
+survive deploys; leftover plains do not. Use dashboard Secrets or
+`wrangler secret put DOMAINS` from a workstation — never from GitHub or a
+Cloud Agent.
 
 The Worker only intercepts the three WKD route patterns. Other hostname
 traffic is unchanged.
@@ -113,13 +125,17 @@ That org-required workflow uses hosted runners and no MNPPI secrets.
 
 ## Adding or Removing Domains
 
-1. Update the Worker `DOMAINS` variable in the Cloudflare dashboard.
+1. Update the Worker `DOMAINS` secret in the Cloudflare dashboard, or run
+   `wrangler secret put DOMAINS` from a workstation with Mark's token.
+   Never commit the value.
 2. Add or remove the three route patterns for that domain.
 3. Add or delete the `openpgpkey.*` CNAME. Add a root placeholder only when
    the zone has no A, AAAA, or CNAME.
 
-Do not put real domains in git, in `wrangler.jsonc` `vars`, or in GitHub
-Actions secrets. Production `DOMAINS` is a Cloudflare dashboard variable.
+Do not put real domains in git, in `wrangler.jsonc` `vars`, in docs
+examples, in tests, or in GitHub Actions secrets. Production `DOMAINS` is
+a Cloudflare Worker secret. Tests and `.dev.vars.example` use only
+example.com, example.org, and example.net.
 
 ## Prerequisites
 
