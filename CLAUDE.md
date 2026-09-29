@@ -7,15 +7,23 @@ A Cloudflare Worker that proxies OpenPGP Web Key Directory (WKD) requests to Pro
 ## Architecture
 
 Single-file Worker (`src/index.ts`) with no framework dependencies. Production
-`DOMAINS` and routes stay in the Cloudflare dashboard. Do not put `DOMAINS`
-in `wrangler.jsonc` `vars`. Tests set example domains in `vitest.config.ts`.
+`DOMAINS` is a Cloudflare Worker **secret**, not a plain `vars` entry. Runtime
+still reads `env.DOMAINS` as a comma-separated string; secrets bind the same
+way. Dashboard routes stay out of git. Do not put `DOMAINS` in
+`wrangler.jsonc` `vars`. Tests set example domains in `vitest.config.ts`.
 Local `wrangler dev` reads `.dev.vars`.
+
+README.md **Production `DOMAINS` secret** is the primary user-facing guidance
+for operators and forks. Follow that section for how to set or rotate the
+secret (dashboard Secrets or `wrangler secret put DOMAINS`), never commit the
+value, and keep example.com / example.org / example.net only in tests and
+`.dev.vars.example`.
 
 ## Key Files
 
 - `src/index.ts` - The entire Worker implementation
 - `test/index.spec.ts` - Tests using `@cloudflare/vitest-pool-workers`
-- `wrangler.jsonc` - Wrangler config (`keep_vars`, no routes, no `DOMAINS` var)
+- `wrangler.jsonc` - Wrangler config (`secrets.required` for `DOMAINS`, no `keep_vars`, no routes, no `DOMAINS` var)
 - `.github/workflows/deploy.yaml` - GitHub CI only: lint, test, `cf:check`
 
 ## Commands
@@ -36,16 +44,17 @@ Cloudflare Workers Builds owns production deploy from `main`. GitHub Actions
 validates only. Do not run `wrangler deploy`, remote DNS writes, or use
 `CLOUDFLARE_API_TOKEN` from GitHub or a Cloud Agent.
 
-The Builds deploy command is `pnpm deploy:cloudflare` (`wrangler deploy --keep-vars`).
+The Builds deploy command is `pnpm deploy:cloudflare` (`wrangler deploy`).
 `workers_dev` is false and `route` / `routes` are omitted so dashboard routes stay.
-`keep_vars` only preserves dashboard vars that are absent from `wrangler.jsonc`.
-Do not commit `DOMAINS` in `vars`, including example values. This public
-repo has no GitHub `DOMAINS` secret. Dashboard `DOMAINS` is the runtime
-source.
+`wrangler.jsonc` lists `DOMAINS` under `secrets.required` so Builds fails closed
+when the secret is missing. Do not commit `DOMAINS` in `vars`, including
+example values. This public repo has no GitHub `DOMAINS` secret. Agents must
+not run `wrangler secret put` or use `CLOUDFLARE_API_TOKEN`. Operators set or
+rotate from a workstation with Mark's token using the README procedure.
 
 Adding a domain is a workstation or dashboard procedure: update the `DOMAINS`
-var, add the three route patterns, create the `openpgpkey` CNAME, and add a
-root placeholder only when the zone has no A/AAAA/CNAME.
+secret per README, add the three route patterns, create the `openpgpkey` CNAME,
+and add a root placeholder only when the zone has no A/AAAA/CNAME.
 
 ## Code Standards
 
