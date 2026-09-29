@@ -9,7 +9,8 @@ overrides:
   browserslist@<4.28.7: 4.28.7
   esbuild@>=0.27.3 <0.28.1: 0.28.1
   flatted@<3.4.2: ^3.4.2
-  fast-uri@>=3.0.0 <3.1.5: ^3.1.5
+  # fast-uri ≥3.1.7 floor for GHSA-58mr-gqgx-xq4g / GHSA-qw65-cvwx-89v3 — REMOVE when lockfile resolves ≥3.1.7 without this pin and those alerts are gone.
+  fast-uri@>=3.0.0 <3.1.7: 3.1.7
   # hono ≥4.13.5 floor for GHSA-crvj-82cr-hjcx / GHSA-gqvv-2mrq-wpjv — REMOVE when lockfile resolves ≥4.13.5 without this pin and those alerts are gone.
   hono@<4.13.5: 4.13.5
   ip-address@<10.3.1: ^10.3.1
