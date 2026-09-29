@@ -22,6 +22,41 @@ This Worker intercepts those requests via Cloudflare route patterns and proxies 
 - 100% test coverage with Cloudflare Workers vitest integration
 - Full observability: structured logging, traces, and logpush
 
+## Production `DOMAINS` secret
+
+This is the primary guidance for operators and anyone forking the Worker.
+
+Production `DOMAINS` is a **Cloudflare Worker secret**, not a plain Wrangler `vars` entry and not a GitHub Actions secret. The Worker reads `env.DOMAINS` at runtime as a comma-separated list of hostnames (no spaces required). Secrets bind the same way as vars, so existing code does not change.
+
+**Never commit the value.** Do not put real domains in git, in `wrangler.jsonc` `vars`, in docs examples, in tests, or in GitHub Actions secrets or variables. This public repository has no GitHub `DOMAINS` secret.
+
+### Set or rotate the secret
+
+Use either path. Do not put the value in the repo.
+
+1. Cloudflare dashboard: Worker `wkd-proxy-worker` → Settings → Secrets → add or update `DOMAINS`.
+2. Workstation CLI (account token on that machine only):
+
+```bash
+wrangler secret put DOMAINS
+```
+
+Paste the comma-separated list when prompted, for example:
+
+```text
+example.com,example.org,example.net
+```
+
+That example is documentation only. Production uses your real custom domains in the secret, never in git.
+
+`wrangler.jsonc` lists `DOMAINS` under `secrets.required`. Workers Builds (`pnpm deploy:cloudflare`, which is `wrangler deploy`) fails closed if the secret is missing. A Worker that somehow ran without it would return HTTP 500 when `env.DOMAINS` is empty.
+
+If `DOMAINS` still exists as a dashboard **plain** variable, convert it to a **secret** before the next Builds deploy. Secrets survive deploys. Leftover plains do not, because this project no longer uses `keep_vars`.
+
+### Example domains only in tests and local files
+
+Tests (`vitest.config.ts`, `test/index.spec.ts`) and `.dev.vars.example` use only `example.com`, `example.org`, and `example.net`. Copy `.dev.vars.example` to `.dev.vars` for local `wrangler dev`. Never copy production domains into those files.
+
 ## Quick Start
 
 ### 1. Fork This Repository
@@ -40,12 +75,7 @@ In the Cloudflare dashboard, open Worker `wkd-proxy-worker` → Settings →
 Builds and connect this repository. Production branch: `main`. Deploy
 command: `pnpm deploy:cloudflare`. Leave non-production branch builds off.
 
-Set the Worker secret `DOMAINS` in Settings → Secrets, or run
-`wrangler secret put DOMAINS` from a workstation that has Mark's token.
-The value is a comma-separated list of your custom domains. Runtime still
-reads `env.DOMAINS` as that string; secrets bind the same way as vars.
-Never commit the value. This public repository has no GitHub secret or
-variable for `DOMAINS`, and GitHub Actions has no Cloudflare deploy token.
+Set production `DOMAINS` as a Worker secret using [Production `DOMAINS` secret](#production-domains-secret). GitHub Actions has no Cloudflare deploy token.
 
 ### 4. Add routes and DNS once
 
@@ -65,8 +95,6 @@ placeholders `192.0.2.1` and `100::` so Cloudflare can intercept
 `wrangler.jsonc` sets `workers_dev = false` and `secrets.required` to
 `["DOMAINS"]` and omits `routes` and `vars`. Wrangler still applies any
 `vars` that are in the config, so `DOMAINS` must not appear there.
-`keep_vars` is gone: there are no dashboard-only plain vars left to
-preserve. Tests and local dev supply example domains separately.
 
 ### 5. Push to Deploy
 
@@ -88,7 +116,8 @@ pnpm run dev
 ```
 
 This starts a local dev server. Copy `.dev.vars.example` to `.dev.vars`
-so local `DOMAINS` uses the example list.
+so local `DOMAINS` uses the example list (`example.com`, `example.org`,
+`example.net`). See [Production `DOMAINS` secret](#production-domains-secret).
 
 ## Testing
 
@@ -99,21 +128,16 @@ pnpm run typecheck   # TypeScript strict mode
 pnpm run lint        # ESLint strict type-checked
 ```
 
+Tests inject the same example list. They never use production domains.
+
 ## How Deployment Works
 
 GitHub Actions validates the pull request. Cloudflare Workers Builds deploys
 from `main` with `pnpm deploy:cloudflare`. That command is
 `wrangler deploy`. Dashboard routes stay because `routes` is omitted.
-Production `DOMAINS` is a Worker secret, not a wrangler `vars` entry.
-`secrets.required` lists `DOMAINS`, so Builds fails closed if the secret
-is missing. A deploy that somehow ran without it would 500 at runtime
-when `env.DOMAINS` is empty.
 
-Convert an existing dashboard **plain** `DOMAINS` variable to a **secret**
-before the first Builds deploy after `keep_vars` is removed. Secrets
-survive deploys; leftover plains do not. Use dashboard Secrets or
-`wrangler secret put DOMAINS` from a workstation — never from GitHub or a
-Cloud Agent.
+Production `DOMAINS` is a Worker secret. Set and rotate it as described in
+[Production `DOMAINS` secret](#production-domains-secret).
 
 The Worker only intercepts the three WKD route patterns. Other hostname
 traffic is unchanged.
@@ -125,17 +149,12 @@ That org-required workflow uses hosted runners and no MNPPI secrets.
 
 ## Adding or Removing Domains
 
-1. Update the Worker `DOMAINS` secret in the Cloudflare dashboard, or run
-   `wrangler secret put DOMAINS` from a workstation with Mark's token.
-   Never commit the value.
+1. Update the Worker `DOMAINS` secret (dashboard Secrets or
+   `wrangler secret put DOMAINS`). Never commit the value. See
+   [Production `DOMAINS` secret](#production-domains-secret).
 2. Add or remove the three route patterns for that domain.
 3. Add or delete the `openpgpkey.*` CNAME. Add a root placeholder only when
    the zone has no A, AAAA, or CNAME.
-
-Do not put real domains in git, in `wrangler.jsonc` `vars`, in docs
-examples, in tests, or in GitHub Actions secrets. Production `DOMAINS` is
-a Cloudflare Worker secret. Tests and `.dev.vars.example` use only
-example.com, example.org, and example.net.
 
 ## Prerequisites
 

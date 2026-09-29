@@ -24,6 +24,12 @@ way. Dashboard routes stay out of git. Do not put `DOMAINS` in
 `wrangler.jsonc` `vars`. Tests set example domains in `vitest.config.ts`.
 Local `wrangler dev` reads `.dev.vars`.
 
+README.md **Production `DOMAINS` secret** is the primary user-facing guidance
+for operators and forks. Follow that section for how to set or rotate the
+secret (dashboard Secrets or `wrangler secret put DOMAINS`), never commit the
+value, and keep example.com / example.org / example.net only in tests and
+`.dev.vars.example`.
+
 ## Key Files
 
 - `src/index.ts` - The entire Worker implementation
@@ -53,13 +59,13 @@ The Builds deploy command is `pnpm deploy:cloudflare` (`wrangler deploy`).
 `workers_dev` is false and `route` / `routes` are omitted so dashboard routes stay.
 `wrangler.jsonc` lists `DOMAINS` under `secrets.required` so Builds fails closed
 when the secret is missing. Do not commit `DOMAINS` in `vars`, including
-example values. This public repo has no GitHub `DOMAINS` secret. Set or rotate
-via dashboard Secrets or `wrangler secret put DOMAINS` from a workstation
-with Mark's token — never commit the value.
+example values. This public repo has no GitHub `DOMAINS` secret. Agents must
+not run `wrangler secret put` or use `CLOUDFLARE_API_TOKEN`. Operators set or
+rotate from a workstation with Mark's token using the README procedure.
 
 Adding a domain is a workstation or dashboard procedure: update the `DOMAINS`
-secret, add the three route patterns, create the `openpgpkey` CNAME, and add a
-root placeholder only when the zone has no A/AAAA/CNAME.
+secret per README, add the three route patterns, create the `openpgpkey` CNAME,
+and add a root placeholder only when the zone has no A/AAAA/CNAME.
 
 ## Code Standards
 
