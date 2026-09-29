@@ -7,15 +7,15 @@ A Cloudflare Worker that proxies OpenPGP Web Key Directory (WKD) requests to Pro
 ## Architecture
 
 Single-file Worker (`src/index.ts`) with no framework dependencies. Production
-`DOMAINS` and routes stay in the Cloudflare dashboard. Do not put `DOMAINS`
-in `wrangler.jsonc` `vars`. Tests set example domains in `vitest.config.ts`.
+`DOMAINS` lives in `wrangler.jsonc` `vars`; change it via PR. Routes stay
+in the Cloudflare dashboard. Tests set example domains in `vitest.config.ts`.
 Local `wrangler dev` reads `.dev.vars`.
 
 ## Key Files
 
 - `src/index.ts` - The entire Worker implementation
 - `test/index.spec.ts` - Tests using `@cloudflare/vitest-pool-workers`
-- `wrangler.jsonc` - Wrangler config (`keep_vars`, no routes, no `DOMAINS` var)
+- `wrangler.jsonc` - Wrangler config (`vars.DOMAINS`, no routes, no `keep_vars`)
 - `.github/workflows/deploy.yaml` - GitHub CI only: lint, test, `cf:check`
 
 ## Commands
@@ -36,16 +36,14 @@ Cloudflare Workers Builds owns production deploy from `main`. GitHub Actions
 validates only. Do not run `wrangler deploy`, remote DNS writes, or use
 `CLOUDFLARE_API_TOKEN` from GitHub or a Cloud Agent.
 
-The Builds deploy command is `pnpm deploy:cloudflare` (`wrangler deploy --keep-vars`).
+The Builds deploy command is `pnpm deploy:cloudflare`.
 `workers_dev` is false and `route` / `routes` are omitted so dashboard routes stay.
-`keep_vars` only preserves dashboard vars that are absent from `wrangler.jsonc`.
-Do not commit `DOMAINS` in `vars`, including example values. This public
-repo has no GitHub `DOMAINS` secret. Dashboard `DOMAINS` is the runtime
-source.
+`DOMAINS` lives in `wrangler.jsonc` `vars`; change it via PR. `keep_vars` is
+not used: config owns plain vars.
 
-Adding a domain is a workstation or dashboard procedure: update the `DOMAINS`
-var, add the three route patterns, create the `openpgpkey` CNAME, and add a
-root placeholder only when the zone has no A/AAAA/CNAME.
+Adding a domain is a PR plus dashboard/DNS procedure: update `vars.DOMAINS`
+in `wrangler.jsonc`, add the three route patterns, create the `openpgpkey` CNAME,
+and add a root placeholder only when the zone has no A/AAAA/CNAME.
 
 ## Code Standards
 
@@ -53,4 +51,4 @@ root placeholder only when the zone has no A/AAAA/CNAME.
 - No `any`, no `as` assertions, no `@ts-ignore`
 - ESLint strict type-checked config
 - 100% test coverage required
-- All domains use example.com/org/net in tests (no real domains in source)
+- Tests and local `.dev.vars` use example.com/org/net (no real domains there)

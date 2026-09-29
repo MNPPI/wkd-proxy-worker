@@ -4,7 +4,9 @@
 	"main": "src/index.ts",
 	"compatibility_date": "2025-03-16",
 	"workers_dev": false,
-	"keep_vars": true,
+	"vars": {
+		"DOMAINS": "marinerpoint.net,mnppi.org,mnppi.com,uihq.com,twintechhomes.com,seekthechurch.org,zuricert.com,opelyx.com,pyndale.com",
+	},
 	"logpush": true,
 	"observability": {
 		"enabled": true,

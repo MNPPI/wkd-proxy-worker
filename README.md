@@ -17,7 +17,7 @@ This Worker intercepts those requests via Cloudflare route patterns and proxies 
 
 - Supports unlimited custom domains via a single environment variable
 - Handles both WKD direct (subdomain) and advanced (`.well-known` path) methods
-- Dashboard-managed routes and `DOMAINS` so real domains stay out of this public repo
+- Dashboard-managed routes; `DOMAINS` lives in `wrangler.jsonc` vars (change via PR)
 - One-time DNS setup for `openpgpkey.*` subdomains
 - 100% test coverage with Cloudflare Workers vitest integration
 - Full observability: structured logging, traces, and logpush
@@ -40,10 +40,9 @@ In the Cloudflare dashboard, open Worker `wkd-proxy-worker` → Settings →
 Builds and connect this repository. Production branch: `main`. Deploy
 command: `pnpm deploy:cloudflare`. Leave non-production branch builds off.
 
-Set the Worker runtime variable `DOMAINS` in Settings → Variables to a
-comma-separated list of your custom domains. That list stays in the
-Cloudflare dashboard. This public repository has no GitHub secret or
-variable for `DOMAINS`, and GitHub Actions has no Cloudflare deploy token.
+`DOMAINS` lives in `wrangler.jsonc` `vars` as a comma-separated list of
+custom domains. Change that list via pull request. GitHub Actions has no
+Cloudflare deploy token.
 
 ### 4. Add routes and DNS once
 
@@ -60,10 +59,10 @@ has no A, AAAA, or CNAME (common for email-only domains), add proxied
 placeholders `192.0.2.1` and `100::` so Cloudflare can intercept
 `.well-known` requests. Existing website records stay untouched.
 
-`wrangler.jsonc` sets `workers_dev = false` and `keep_vars = true` and
-omits `routes` and `vars`. Wrangler still applies any `vars` that are in
-the config, so example `DOMAINS` must not appear there. Tests and local
-dev supply example domains separately.
+`wrangler.jsonc` sets `workers_dev = false` and omits `routes`, so
+dashboard routes stay. `DOMAINS` lives in `vars` and is the runtime
+source. Tests and local `wrangler dev` still supply example domains
+separately.
 
 ### 5. Push to Deploy
 
@@ -99,9 +98,9 @@ pnpm run lint        # ESLint strict type-checked
 ## How Deployment Works
 
 GitHub Actions validates the pull request. Cloudflare Workers Builds deploys
-from `main` with `pnpm deploy:cloudflare`. That command is
-`wrangler deploy --keep-vars`. Dashboard routes stay because `routes` is
-omitted. Production `DOMAINS` stays because it is not in `wrangler.jsonc`.
+from `main` with `pnpm deploy:cloudflare`. Dashboard routes stay because
+`routes` is omitted. Production `DOMAINS` comes from `wrangler.jsonc`
+`vars`.
 
 The Worker only intercepts the three WKD route patterns. Other hostname
 traffic is unchanged.
@@ -113,13 +112,13 @@ That org-required workflow uses hosted runners and no MNPPI secrets.
 
 ## Adding or Removing Domains
 
-1. Update the Worker `DOMAINS` variable in the Cloudflare dashboard.
+1. Update `vars.DOMAINS` in `wrangler.jsonc` and open a pull request.
 2. Add or remove the three route patterns for that domain.
 3. Add or delete the `openpgpkey.*` CNAME. Add a root placeholder only when
    the zone has no A, AAAA, or CNAME.
 
-Do not put real domains in git, in `wrangler.jsonc` `vars`, or in GitHub
-Actions secrets. Production `DOMAINS` is a Cloudflare dashboard variable.
+Do not put `DOMAINS` in GitHub Actions secrets. Routes stay
+dashboard-managed. Production `DOMAINS` is the `wrangler.jsonc` `vars` list.
 
 ## Prerequisites
 
