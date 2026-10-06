@@ -13,14 +13,16 @@ overrides:
   fast-uri@>=3.0.0 <3.1.7: 3.1.7
   # hono ≥4.13.5 floor for GHSA-crvj-82cr-hjcx / GHSA-gqvv-2mrq-wpjv — REMOVE when lockfile resolves ≥4.13.5 without this pin and those alerts are gone.
   hono@<4.13.5: 4.13.5
-  ip-address@<10.3.1: ^10.3.1
+  # ip-address ≥10.7.1 floor for GHSA-rpw4-54j3-4h4q / GHSA-2vr4-cq9g-pvrc — REMOVE when lockfile resolves ≥10.7.1 without this pin and those alerts are gone.
+  ip-address@<=10.5.0: 10.7.1
   minimatch@<10: ^10.2.1
   nanoid@>=3.0.0 <3.3.18: 3.3.18
   postcss@<=8.5.22: 8.5.23
   sharp@<0.35.4: 0.35.4
   tar@<7.5.21: ^7.5.21
   undici@>=6.0.0 <6.27.0: ^6.27.0
-  undici@>=7.0.0 <7.29.0: ^7.29.0
+  # undici ≥7.29.1 floor for GHSA-w293-vg96-wgc3 — REMOVE when lockfile resolves ≥7.29.1 without this pin and that alert is gone.
+  undici@>=7.0.0 <7.29.1: 7.29.1
   ws@>=8.0.0 <8.21.0: ^8.21.0
 
 allowBuilds:
