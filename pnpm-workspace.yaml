@@ -14,6 +14,8 @@ overrides:
   flatted@<3.4.2: ^3.4.2
   # fast-uri ≥3.1.7 floor for GHSA-58mr-gqgx-xq4g / GHSA-qw65-cvwx-89v3 — REMOVE when lockfile resolves ≥3.1.7 without this pin and those alerts are gone.
   fast-uri@>=3.0.0 <3.1.7: 3.1.7
+  # handlebars ≥4.7.10 floor for GHSA-8r5x-fm3f-whwj / GHSA-p8wg-vrv2-v86f / GHSA-xw65-4hp5-5hc7 — REMOVE when lockfile resolves ≥4.7.10 without this pin and those alerts are gone.
+  handlebars@<4.7.10: 4.7.10
   # hono ≥4.13.5 floor for GHSA-crvj-82cr-hjcx / GHSA-gqvv-2mrq-wpjv — REMOVE when lockfile resolves ≥4.13.5 without this pin and those alerts are gone.
   hono@<4.13.5: 4.13.5
   # ip-address ≥10.7.1 floor for GHSA-rpw4-54j3-4h4q / GHSA-2vr4-cq9g-pvrc — REMOVE when lockfile resolves ≥10.7.1 without this pin and those alerts are gone.
