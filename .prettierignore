@@ -2,3 +2,6 @@
 .dev.vars.example
 coverage
 .wrangler
+# pnpm owns this generated lockfile. Prettier and pnpm disagree on YAML
+# layout; formatting it makes Renovate lockfile PRs fail format:check.
+pnpm-lock.yaml
