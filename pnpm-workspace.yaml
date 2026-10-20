@@ -16,8 +16,8 @@ overrides:
   fast-uri@>=3.0.0 <3.1.7: 3.1.7
   # handlebars ≥4.7.10 floor for GHSA-8r5x-fm3f-whwj / GHSA-p8wg-vrv2-v86f / GHSA-xw65-4hp5-5hc7 — REMOVE when lockfile resolves ≥4.7.10 without this pin and those alerts are gone.
   handlebars@<4.7.10: 4.7.10
-  # hono ≥4.13.5 floor for GHSA-crvj-82cr-hjcx / GHSA-gqvv-2mrq-wpjv — REMOVE when lockfile resolves ≥4.13.5 without this pin and those alerts are gone.
-  hono@<4.13.5: 4.13.5
+  # hono ≥4.13.13 floor for GHSA-crvj-82cr-hjcx / GHSA-gqvv-2mrq-wpjv / GHSA-hxh3-vqpv-xpqv — REMOVE when lockfile resolves ≥4.13.13 without this pin and those alerts are gone.
+  hono@<4.13.13: 4.13.13
   # ip-address ≥10.7.1 floor for GHSA-rpw4-54j3-4h4q / GHSA-2vr4-cq9g-pvrc — REMOVE when lockfile resolves ≥10.7.1 without this pin and those alerts are gone.
   ip-address@<=10.5.0: 10.7.1
   minimatch@<10: ^10.2.1
@@ -27,6 +27,8 @@ overrides:
   proxy-addr@<2.0.8: 2.0.8
   # sharp ≥0.35.5 floor for GHSA-wq5f-xc86-pv6w — REMOVE when lockfile resolves ≥0.35.5 without this pin and that alert is gone.
   sharp@<0.35.5: 0.35.5
+  # smol-toml 1.9.0 pin for GHSA-r4xh-jqrq-34v2 — REMOVE when lockfile resolves ≥1.9.0 without this pin, 1.9.1 is soaked, and that alert is gone.
+  smol-toml: 1.9.0
   # source-map-js ≥1.2.2 floor for GHSA-68fv-2mgg-jv7q — REMOVE when lockfile resolves ≥1.2.2 without this pin and that alert is gone.
   source-map-js@<1.2.2: 1.2.2
   tar@<7.5.21: ^7.5.21
