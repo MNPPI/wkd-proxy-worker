@@ -8,7 +8,7 @@ overrides:
   '@babel/core': 7.29.7
   '@hono/node-server': 2.0.11
   '@humanfs/node@<0.16.8': 0.16.8
-  '@modelcontextprotocol/sdk@<1.31.0': 1.31.0
+  '@modelcontextprotocol/sdk@<1.32.0': 1.32.1
   adm-zip@<0.6.1: 0.6.1
   brace-expansion@<5.0.12: 5.0.12
   browserslist@<4.28.7: 4.28.7
@@ -665,8 +665,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
-  '@modelcontextprotocol/sdk@1.31.0':
-    resolution: {integrity: sha512-UvTMgnNlnIBO/22ob2RcVGDlcvOslQs8T59+FTGdA0L27a39fdGF/EDETNtDVK4DZGpwomlsYpRdA8UXcVL/pw==}
+  '@modelcontextprotocol/sdk@1.32.1':
+    resolution: {integrity: sha512-2DdE+SJDtzLEEWzY1ZjY7Q+VcPhcV1KisD3zI4u0XZyktsjHum1mwbMI+JaulUBi2OZk+KJAi2uPXzxichPkdw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@cfworker/json-schema': ^4.1.1
@@ -2893,7 +2893,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@modelcontextprotocol/sdk@1.31.0(supports-color@10.2.2)(zod@4.4.3)':
+  '@modelcontextprotocol/sdk@1.32.1(supports-color@10.2.2)(zod@4.4.3)':
     dependencies:
       '@hono/node-server': 2.0.11(hono@4.13.13)
       ajv: 8.20.0
@@ -4160,7 +4160,7 @@ snapshots:
   repomix@1.18.0(supports-color@10.2.2)(typescript@5.9.3):
     dependencies:
       '@clack/prompts': 0.11.0
-      '@modelcontextprotocol/sdk': 1.31.0(supports-color@10.2.2)(zod@4.4.3)
+      '@modelcontextprotocol/sdk': 1.32.1(supports-color@10.2.2)(zod@4.4.3)
       '@repomix/strip-comments': 2.4.2
       '@repomix/tree-sitter-wasms': 0.1.17
       '@secretlint/core': 13.0.4(supports-color@10.2.2)
