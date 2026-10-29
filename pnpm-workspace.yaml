@@ -37,11 +37,13 @@ overrides:
   # tinypool ≥2.1.2 floor for GHSA-5gmw-xhrv-c9v3 / GHSA-85c8-ppgw-ccpr — REMOVE when lockfile resolves ≥2.1.2 without this pin and those alerts are gone.
   tinypool@<2.1.2: 2.1.2
   undici@>=6.0.0 <6.27.0: ^6.27.0
-  # undici ≥7.29.1 floor for GHSA-w293-vg96-wgc3 — REMOVE when lockfile resolves ≥7.29.1 without this pin and that alert is gone.
-  undici@>=7.0.0 <7.29.1: 7.29.1
+  # undici ≥7.30.1 floor for GHSA-w293-vg96-wgc3 / GHSA-2m5v-pch6-74hx / GHSA-4w7w-5xrc-9h26 / GHSA-qrxm-fqhp-jwvm / GHSA-xjj6-f33q-929c — REMOVE when lockfile resolves ≥7.30.1 without this pin and those alerts are gone.
+  undici@>=7.0.0 <7.30.1: 7.30.1
   # vite ≥7.3.7 floor for GHSA-rq7h-c2jc-7f22 / GHSA-9jrq-w75r-8gcw — REMOVE when lockfile resolves ≥7.3.7 without this pin and those alerts are gone.
   vite@>=7.0.0 <7.3.7: 7.3.7
   ws@>=8.0.0 <8.21.0: ^8.21.0
+  # zod ≥4.6.7 floor for GHSA-mrhx-c7xc-m3w5 — REMOVE when the 4.x copy resolves ≥4.6.7 without this pin and that alert is gone. 3.25.76 stays; there is no same-major fix.
+  zod@>=4.0.0 <4.6.7: 4.6.7
 
 allowBuilds:
   esbuild: true
