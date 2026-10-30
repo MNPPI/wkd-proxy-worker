@@ -1,7 +1,18 @@
-# Mark-approved 2026-10-12. Time-boxed ignore for braces GHSA-vfj7-8cjw-p6xm only.
+# Mark-approved 2026-10-12. Time-boxed ignore for braces GHSA-vfj7-8cjw-p6xm.
+# Mark GO 2026-10-29. Time-boxed ignores for GHSA-mrhx-c7xc-m3w5 and GHSA-27r3-jxmh-p828.
 # Ignores nothing else.
 
 [[IgnoredVulns]]
 id = "GHSA-vfj7-8cjw-p6xm"
 ignoreUntil = 2026-11-11
 reason = "Removed as soon as upstream publishes a same-major fix. braces 3.0.3 has no patched npm release."
+
+[[IgnoredVulns]]
+id = "GHSA-mrhx-c7xc-m3w5"
+ignoreUntil = 2026-11-11
+reason = "Removed as soon as upstream publishes a same-major fix. zod 3.25.76 has no 3.x fix. Mark GO 2026-10-29."
+
+[[IgnoredVulns]]
+id = "GHSA-27r3-jxmh-p828"
+ignoreUntil = 2026-11-06
+reason = "Removed as soon as upstream publishes a same-major fix. body-parser 2.3.0 is fixed in 2.4.0, which becomes soak-eligible 2026-11-05. Mark GO 2026-10-29."
