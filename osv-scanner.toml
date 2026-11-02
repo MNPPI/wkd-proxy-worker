@@ -1,11 +1,5 @@
-# Mark-approved 2026-10-12. Time-boxed ignore for braces GHSA-vfj7-8cjw-p6xm.
 # Mark GO 2026-10-29. Time-boxed ignores for GHSA-mrhx-c7xc-m3w5 and GHSA-27r3-jxmh-p828.
 # Ignores nothing else.
-
-[[IgnoredVulns]]
-id = "GHSA-vfj7-8cjw-p6xm"
-ignoreUntil = 2026-11-11
-reason = "Removed as soon as upstream publishes a same-major fix. braces 3.0.3 has no patched npm release."
 
 [[IgnoredVulns]]
 id = "GHSA-mrhx-c7xc-m3w5"
