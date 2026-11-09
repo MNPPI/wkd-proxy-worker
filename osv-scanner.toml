@@ -1,7 +1,0 @@
-# Mark GO 2026-10-29. Time-boxed ignore for GHSA-mrhx-c7xc-m3w5.
-# Ignores nothing else.
-
-[[IgnoredVulns]]
-id = "GHSA-mrhx-c7xc-m3w5"
-ignoreUntil = 2026-11-11
-reason = "Removed as soon as upstream publishes a same-major fix. zod 3.25.76 has no 3.x fix. Mark GO 2026-10-29."
