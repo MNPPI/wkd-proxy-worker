@@ -4,6 +4,8 @@ overrides:
   '@hono/node-server@<2.1.5': 2.1.5
   # @humanfs/node ≥0.16.8 floor for GHSA-p498-v437-472g — REMOVE when lockfile resolves ≥0.16.8 without this pin and that alert is gone.
   '@humanfs/node@<0.16.8': 0.16.8
+  # @isaacs/nonrecursive-glob-match 1.0.1 pin — minimatch 11.0.1 requests ^1.0.1; 1.0.2+ is inside the soak window. REMOVE when 1.0.2 has soaked.
+  '@isaacs/nonrecursive-glob-match@>1.0.1': 1.0.1
   # @modelcontextprotocol/sdk ≥1.32.1 floor for GHSA-22jm-h49p-29qw / GHSA-46jr-4wx8-v453 / GHSA-6qxp-vccf-f47h — REMOVE when lockfile resolves ≥1.32.1 without this pin and those alerts are gone.
   '@modelcontextprotocol/sdk@<1.32.0': 1.32.1
   # @vitest/mocker ≥4.1.12 floor for GHSA-qxg6-89mg-rqv8 / GHSA-xp26-3454-mjgp — REMOVE when lockfile resolves ≥4.1.12 without this pin and those alerts are gone.
@@ -25,7 +27,8 @@ overrides:
   hono@<4.13.13: 4.13.13
   # REMOVE when the parent dependency resolves >= 10.7.4 (Renovate bump)
   ip-address@<10.7.4: 10.7.4
-  minimatch@<10: ^10.2.1
+  # minimatch ≥11.0.1 floor for GHSA-g3hv-75wg-m249 — REMOVE when lockfile resolves ≥11.0.1 without this pin and that alert is gone.
+  minimatch@<11.0.1: 11.0.1
   nanoid@>=3.0.0 <3.3.18: 3.3.18
   postcss@<=8.5.22: 8.5.23
   # proxy-addr ≥2.0.8 floor for GHSA-jqcg-44mw-7w3h — REMOVE when lockfile resolves ≥2.0.8 without this pin and that alert is gone.

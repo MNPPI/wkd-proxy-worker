@@ -8,6 +8,7 @@ overrides:
   '@babel/core': 7.29.7
   '@hono/node-server@<2.1.5': 2.1.5
   '@humanfs/node@<0.16.8': 0.16.8
+  '@isaacs/nonrecursive-glob-match@>1.0.1': 1.0.1
   '@modelcontextprotocol/sdk@<1.32.0': 1.32.1
   '@vitest/mocker@>=4.0.0 <4.1.12': 4.1.12
   adm-zip@<0.6.1: 0.6.1
@@ -20,7 +21,7 @@ overrides:
   handlebars@<4.7.10: 4.7.10
   hono@<4.13.13: 4.13.13
   ip-address@<10.7.4: 10.7.4
-  minimatch@<10: ^10.2.1
+  minimatch@<11.0.1: 11.0.1
   nanoid@>=3.0.0 <3.3.18: 3.3.18
   postcss@<=8.5.22: 8.5.23
   proxy-addr@<2.0.8: 2.0.8
@@ -632,6 +633,9 @@ packages:
   '@isaacs/fs-minipass@4.0.1':
     resolution: {integrity: sha512-wgm9Ehl2jpeqP3zw/7mo3kRHFp5MEDhqAdwy1fTGkHAwnkGOVsgpvQhL8B5n1qlb01jV3n/bI0ZfZp5lWA1k4w==}
     engines: {node: '>=18.0.0'}
+
+  '@isaacs/nonrecursive-glob-match@1.0.1':
+    resolution: {integrity: sha512-rNKPuTXBacPpn5+CP+S3/UI6uq/0jHZjPpaBLaRE3blpgX+E+ZUIrGfViPvUjUnQG6W1+3OTFUiVRCjTffs2+Q==}
 
   '@istanbuljs/schema@0.1.3':
     resolution: {integrity: sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==}
@@ -1828,8 +1832,8 @@ packages:
     resolution: {integrity: sha512-YAaGj4Sh5f4fqHKiMQ8zRHDOOM5IGUVtMhnLIeyjuQfU+9P6hcOTrHUVtbfj/ZPay9Kzik4pWELB39pGgefjiQ==}
     engines: {node: '>=22.0.0'}
 
-  minimatch@10.2.5:
-    resolution: {integrity: sha512-MULkVLfKGYDFYejP07QOurDLLQpcjk7Fw+7jXS2R2czRQzR56yHRveU5NDJEOviH+hETZKSkIk5c+T23GjFUMg==}
+  minimatch@11.0.1:
+    resolution: {integrity: sha512-t+Vn6DX4wPCxS23y03C0uhF7S1jpi1GfqPrnlEipCJaA2ykiNbMkVlDutZtmvLfRcUN6R8AYVlzTsQrT4RZoLQ==}
     engines: {node: 18 || 20 || >=22}
 
   minimist@1.2.8:
@@ -2710,7 +2714,7 @@ snapshots:
     dependencies:
       '@eslint/object-schema': 3.0.5
       debug: 4.4.3(supports-color@10.2.2)
-      minimatch: 10.2.5
+      minimatch: 11.0.1
     transitivePeerDependencies:
       - supports-color
 
@@ -2858,6 +2862,8 @@ snapshots:
   '@isaacs/fs-minipass@4.0.1':
     dependencies:
       minipass: 7.1.3
+
+  '@isaacs/nonrecursive-glob-match@1.0.1': {}
 
   '@istanbuljs/schema@0.1.3': {}
 
@@ -3249,7 +3255,7 @@ snapshots:
       '@typescript-eslint/types': 8.67.0
       '@typescript-eslint/visitor-keys': 8.67.0
       debug: 4.4.3(supports-color@10.2.2)
-      minimatch: 10.2.5
+      minimatch: 11.0.1
       semver: 7.8.5
       tinyglobby: 0.2.17
       ts-api-utils: 2.5.0(typescript@5.9.3)
@@ -3569,7 +3575,7 @@ snapshots:
       imurmurhash: 0.1.4
       is-glob: 4.0.3
       json-stable-stringify-without-jsonify: 1.0.1
-      minimatch: 10.2.5
+      minimatch: 11.0.1
       natural-compare: 1.4.0
       optionator: 0.9.4
     optionalDependencies:
@@ -3982,8 +3988,9 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  minimatch@10.2.5:
+  minimatch@11.0.1:
     dependencies:
+      '@isaacs/nonrecursive-glob-match': 1.0.1
       brace-expansion: 5.0.12
 
   minimist@1.2.8: {}
@@ -4174,7 +4181,7 @@ snapshots:
       jiti: 2.7.0
       jschardet: 3.1.4
       json5: 2.2.3
-      minimatch: 10.2.5
+      minimatch: 11.0.1
       picocolors: 1.1.1
       picospinner: 3.0.0
       tar: 7.5.22
