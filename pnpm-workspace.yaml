@@ -24,7 +24,7 @@ overrides:
   # handlebars ≥4.7.10 floor for GHSA-8r5x-fm3f-whwj / GHSA-p8wg-vrv2-v86f / GHSA-xw65-4hp5-5hc7 — REMOVE when lockfile resolves ≥4.7.10 without this pin and those alerts are gone.
   handlebars@<4.7.10: 4.7.10
   # hono ≥4.13.13 floor for GHSA-crvj-82cr-hjcx / GHSA-gqvv-2mrq-wpjv / GHSA-hxh3-vqpv-xpqv — REMOVE when lockfile resolves ≥4.13.13 without this pin and those alerts are gone.
-  hono@<4.13.13: 4.13.13
+  hono@<4.13.13: 4.13.18
   # REMOVE when the parent dependency resolves >= 10.7.4 (Renovate bump)
   ip-address@<10.7.4: 10.7.4
   # minimatch ≥11.0.1 floor for GHSA-g3hv-75wg-m249 — REMOVE when lockfile resolves ≥11.0.1 without this pin and that alert is gone.
