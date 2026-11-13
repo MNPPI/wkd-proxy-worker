@@ -1,7 +1,7 @@
 overrides:
   '@babel/core': 7.29.7
   # REMOVE when the parent dependency resolves >= 2.1.5 (Renovate bump)
-  '@hono/node-server@<2.1.5': 2.1.5
+  '@hono/node-server@<2.1.5': 2.1.8
   # @humanfs/node ≥0.16.8 floor for GHSA-p498-v437-472g — REMOVE when lockfile resolves ≥0.16.8 without this pin and that alert is gone.
   '@humanfs/node@<0.16.8': 0.16.8
   # @isaacs/nonrecursive-glob-match 1.0.1 pin — minimatch 11.0.1 requests ^1.0.1; 1.0.2+ is inside the soak window. REMOVE when 1.0.2 has soaked.
