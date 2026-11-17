@@ -43,7 +43,7 @@ jobs:
 
   public-quality:
     name: Public Quality
-    uses: MNPPI/.github/.github/workflows/public-quality.yml@3430f2fc465aece10e19501a39d7f949c5acb096
+    uses: MNPPI/.github/.github/workflows/public-quality.yml@6af4f04a0b2d22f9a87eb52e0b7cf146acbecc99
     with:
       profile: typescript
 
